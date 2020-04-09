@@ -1,0 +1,9 @@
+# Environment variables
+# Normally uncommented
+# .env
+
+# Dependencies
+node_modules
+
+# Ignore built files
+dist/**/*

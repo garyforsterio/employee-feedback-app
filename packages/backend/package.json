@@ -1,0 +1,60 @@
+{
+  "name": "feedback-backend",
+  "version": "1.0.0",
+  "description": "Backend for feedback full-stack engineer challenge",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --watch src -e ts,tsx --exec ts-node src/server.ts",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "serve": "node dist/server.js",
+    "build": "tsc",
+    "start": "npm run serve"
+  },
+  "engines": {
+    "node": "12.x.x",
+    "npm": "6.x.x"
+  },
+  "author": "Gary Forster <gary@garyforster.io>",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/garyforsterio/paypay-assignment/backend#readme",
+  "repository": "github:garyforsterio/paypay-assignment",
+  "devDependencies": {
+    "@types/koa": "2.0.49",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-helmet": "^3.1.2",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa__cors": "^3.0.1",
+    "@types/koa__router": "^8.0.2",
+    "@types/node": "^12.12.6",
+    "@types/shelljs": "^0.8.7",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-simple-import-sort": "^5.0.2",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.4",
+    "shelljs": "^0.8.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@koa/router": "^8.0.8",
+    "@typegoose/typegoose": "^6.4.0",
+    "@types/mongoose": "^5.7.9",
+    "@types/uuid": "^7.0.2",
+    "class-validator": "^0.11.1",
+    "dotenv": "^8.2.0",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-helmet": "^5.2.0",
+    "koa-jwt": "^3.6.0",
+    "koa-logger": "^3.2.1",
+    "koa-swagger-decorator": "^1.5.16",
+    "mongoose": "^5.9.7"
+  }
+}
