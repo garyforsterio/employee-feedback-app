@@ -4,13 +4,20 @@ import React, {
   useContext,
   useState,
 } from 'react';
+import decode from 'jwt-decode';
 
 import { API_BASE, LOCAL_STORAGE_TOKEN_KEY } from '../constants';
+
+interface TokenPayload {
+  id: string;
+  admin: boolean;
+}
 
 type AuthContextType = {
   isAuthenticated: boolean;
   token: string | null;
   loading: boolean;
+  user: TokenPayload | null;
   login: (email: string, password: string, isRegistration: boolean) => void;
   logout: () => void;
 };
@@ -19,12 +26,25 @@ export const useAuth = (): AuthContextType => useContext(AuthContext);
 
 type AuthProviderProps = {};
 const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
-  const storedToken =
-    // If SSR there is no local storage
-    typeof localStorage !== 'undefined' &&
-    localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+  // If SSR there is no window
+  const isSSR = typeof window === 'undefined';
+
+  // TODO check token expiration
+  const storedToken = isSSR
+    ? null
+    : localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+
+  const decodedToken = storedToken
+    ? (decode(storedToken) as {
+        user: TokenPayload;
+        iat: number;
+        exp: number;
+      })
+    : null;
+
   const [isAuthenticated, setIsAuthenticated] = useState(!!storedToken);
   const [token, setToken] = useState(storedToken);
+  const [user, setUser] = useState(decodedToken ? decodedToken.user : null);
   const [loading, setLoading] = useState(false);
 
   const login = async (
@@ -49,7 +69,13 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
       );
       const { token } = (await response.json()) as { token: string };
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+      const decodedToken = decode(token) as {
+        user: TokenPayload;
+        iat: number;
+        exp: number;
+      };
       setToken(token);
+      setUser(decodedToken.user);
       setIsAuthenticated(true);
       setLoading(false);
     } catch (error) {
@@ -69,6 +95,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const value: AuthContextType = {
     isAuthenticated,
     token,
+    user,
     loading,
     login,
     logout,

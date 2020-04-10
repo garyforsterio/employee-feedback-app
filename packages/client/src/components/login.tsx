@@ -2,15 +2,16 @@ import React, { FunctionComponent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, LinearProgress } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import { RouteComponentProps } from '@reach/router';
 import { navigate } from 'gatsby';
 
 import Layout from '@/components/layout';
 
 import { useAuth } from '../providers/auth';
 
-type LoginProps = {
+interface LoginProps extends RouteComponentProps {
   isRegistration: boolean;
-};
+}
 
 /**
  * Used for both login and registration
@@ -18,15 +19,15 @@ type LoginProps = {
  */
 const Login: FunctionComponent<LoginProps> = ({ isRegistration }) => {
   const { t } = useTranslation();
-  const { login, isAuthenticated, loading } = useAuth();
+  const { login, isAuthenticated, user, loading } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     //   Redirect
-    navigate('/');
+    navigate(user.admin ? '/users/' : '/feedback/');
   }
 
   const handleChange = (

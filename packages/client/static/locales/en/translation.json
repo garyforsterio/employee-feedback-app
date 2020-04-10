@@ -1,5 +1,20 @@
 {
   "404.message": "Not found",
-  "layout.login": "Login",
-  "login.title": "Login"
+  "createUser.title.create": "Create User",
+  "createUser.title.update": "Update User",
+  "createUser.email": "Email",
+  "createUser.name": "Name",
+  "createUser.admin": "Is admin?",
+  "createUser.submit.create": "Create",
+  "createUser.submit.update": "Update",
+  "layout.logout": "Logout",
+  "login.title.login": "Login",
+  "login.title.register": "Register",
+  "login.email": "Email",
+  "login.password": "Password",
+  "login.passwordConfirm": "Confirm Password",
+  "login.submit.login": "Login",
+  "login.submit.register": "Register",
+  "user.rating": "Avg Rating:",
+  "users.title": "Employees"
 }

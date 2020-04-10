@@ -1,9 +1,22 @@
 import React, { FunctionComponent } from 'react';
+import { Redirect, Router } from '@reach/router';
 
-import Layout from '@/components/layout';
+import CreateUser from '@/components/create-user';
+import Login from '@/components/login';
+import PrivateRoute from '@/components/private-route';
+import Users from '@/components/users';
 
 const IndexPage: FunctionComponent = () => {
-  return <Layout title={''}>hi</Layout>;
+  return (
+    <Router>
+      <Login isRegistration={false} path="/login" />
+      <Login isRegistration={true} path="/register" />
+      <PrivateRoute component={Users} path="/users" />
+      <PrivateRoute component={CreateUser} path="/users/create" />
+      <PrivateRoute component={CreateUser} path="/users/:userId" />
+      <Redirect from="/" to="/users/" />
+    </Router>
+  );
 };
 
 export default IndexPage;
