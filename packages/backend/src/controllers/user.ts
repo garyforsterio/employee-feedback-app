@@ -27,7 +27,7 @@ export default class UserController {
   @request('get', '/users')
   @summary('Get all users')
   public static async getUsers(ctx: BaseContext): Promise<void> {
-    const users = await userModel.find({}, '-__v').lean();
+    const users = await userModel.find({}, '-__v -password').lean();
 
     ctx.status = 200;
     ctx.body = users;
@@ -39,7 +39,7 @@ export default class UserController {
     id: { type: 'string', required: true, description: 'ID of the user' },
   })
   public static async getUser(ctx: BaseContext): Promise<void> {
-    const user = await userModel.findById(ctx.params.id, '-__v');
+    const user = await userModel.findById(ctx.params.id, '-__v -password');
 
     if (!user) {
       ctx.status = 400;
@@ -60,6 +60,7 @@ export default class UserController {
     const newUser: User = new User();
     newUser.name = ctx.request.body.name;
     newUser.email = ctx.request.body.email;
+    newUser.admin = ctx.request.body.admin;
 
     // Validate user
     const errors: ValidationError[] = await validate(newUser);
@@ -97,6 +98,7 @@ export default class UserController {
     const updatedUser: User = new User();
     updatedUser.name = ctx.request.body.name;
     updatedUser.email = ctx.request.body.email;
+    updatedUser.admin = ctx.request.body.admin;
 
     // validate user entity
     const errors: ValidationError[] = await validate(updatedUser);
@@ -128,7 +130,6 @@ export default class UserController {
     await preexistingUser.update(updatedUser);
 
     ctx.status = 200;
-    ctx.body = updatedUser;
   }
 
   @request('delete', '/users/{id}')

@@ -1,13 +1,16 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
-import { Length } from 'class-validator';
+import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
+import { IsBoolean, IsString, Length } from 'class-validator';
 
-export class Request {
+export class Request extends defaultClasses.TimeStamps {
   @prop({ required: true })
+  @IsBoolean()
   completed?: boolean;
   @prop({ required: true })
+  @IsString()
   @Length(24, 24)
   evaluatorId!: string;
   @prop({ required: true })
+  @IsString()
   @Length(24, 24)
   evaluateeId!: string;
 }

@@ -7,7 +7,8 @@ import logger from 'koa-logger';
 import mongoose from 'mongoose';
 
 import config from './config';
-import router from './routes';
+import protectedRouter from './protected-router';
+import publicRouter from './public-router';
 
 // Connect to database
 mongoose
@@ -33,6 +34,8 @@ mongoose
     // Enable bodyParser
     app.use(bodyParser());
 
+    app.use(publicRouter.routes()).use(publicRouter.allowedMethods());
+
     // JWT middleware
     // Anything below is unauthorized if JWT token is invalid
     // Exclude swagger endpoints
@@ -40,7 +43,7 @@ mongoose
       jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }),
     );
 
-    app.use(router.routes()).use(router.allowedMethods());
+    app.use(protectedRouter.routes()).use(protectedRouter.allowedMethods());
 
     app.listen(config.port);
 

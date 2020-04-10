@@ -1,8 +1,9 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
-import { IsInt, Length, Max, Min } from 'class-validator';
+import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
+import { IsInt, IsString, Length, Max, Min } from 'class-validator';
 
-export class Review {
+export class Review extends defaultClasses.TimeStamps {
   @prop({ required: true })
+  @IsString()
   @Length(24, 24)
   requestId!: string;
   @prop({ required: true })
@@ -11,6 +12,7 @@ export class Review {
   @Max(5)
   rating!: number;
   @prop({ required: true })
+  @IsString()
   @Length(0, 5000)
   feedback!: string;
 }
