@@ -8,12 +8,21 @@ import Layout from '@/components/layout';
 
 import { useAuth } from '../providers/auth';
 
-const Login: FunctionComponent = () => {
+type LoginProps = {
+  isRegistration: boolean;
+};
+
+/**
+ * Used for both login and registration
+ * Displays simple form for credential input
+ */
+const Login: FunctionComponent<LoginProps> = ({ isRegistration }) => {
   const { t } = useTranslation();
   const { login, isAuthenticated, loading } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   if (isAuthenticated) {
     //   Redirect
@@ -31,10 +40,16 @@ const Login: FunctionComponent = () => {
     if (loading) {
       return;
     }
-    login(email, password);
+    if (isRegistration && password !== passwordConfirm) {
+      console.log('passwords do not match');
+      // TODO: add feedback
+      return;
+    }
+    login(email, password, isRegistration);
   };
+
   return (
-    <Layout title={t('login.title')}>
+    <Layout title={t(`login.title.${isRegistration ? 'register' : 'login'}`)}>
       {loading && <LinearProgress color="secondary" />}
       <Box
         alignItems="center"
@@ -47,7 +62,7 @@ const Login: FunctionComponent = () => {
           <div>
             <TextField
               disabled={loading}
-              label="Email"
+              label={t('login.email')}
               margin="normal"
               onChange={handleChange(setEmail)}
               type="email"
@@ -58,7 +73,7 @@ const Login: FunctionComponent = () => {
           <div>
             <TextField
               disabled={loading}
-              label="Password"
+              label={t('login.password')}
               margin="normal"
               onChange={handleChange(setPassword)}
               type="password"
@@ -66,8 +81,21 @@ const Login: FunctionComponent = () => {
               variant="outlined"
             />
           </div>
+          {isRegistration && (
+            <div>
+              <TextField
+                disabled={loading}
+                label={t('login.passwordConfirm')}
+                margin="normal"
+                onChange={handleChange(setPasswordConfirm)}
+                type="password"
+                value={passwordConfirm}
+                variant="outlined"
+              />
+            </div>
+          )}
           <Button color="secondary" fullWidth type="submit" variant="contained">
-            Login
+            {t(`login.submit.${isRegistration ? 'register' : 'login'}`)}
           </Button>
         </form>
       </Box>

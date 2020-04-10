@@ -11,7 +11,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string, isRegistration: boolean) => void;
   logout: () => void;
 };
 export const AuthContext = createContext({} as AuthContextType);
@@ -30,12 +30,12 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const login = async (
     email: string,
     password: string,
-    registration = false,
+    isRegistration = false,
   ): Promise<void> => {
     try {
       setLoading(true);
       const response = await fetch(
-        API_BASE + (registration ? '/register' : '/login'),
+        `${API_BASE}${isRegistration ? '/register' : '/login'}`,
         {
           method: 'POST',
           headers: {
