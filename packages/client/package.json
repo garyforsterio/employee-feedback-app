@@ -1,19 +1,54 @@
 {
-  "name": "client",
+  "name": "employee-feedback-app-client",
+  "description": "Employee feedback client application",
   "version": "1.0.0",
-  "description": "> TODO: description",
   "author": "Gary Forster <gary@garyforster.io>",
-  "homepage": "",
-  "license": "UNLICENSED",
-  "main": "lib/client.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+  "dependencies": {
+    "@material-ui/core": "^4.9.9",
+    "@material-ui/icons": "^4.9.1",
+    "gatsby": "^2.20.9",
+    "gatsby-image": "^2.3.1",
+    "gatsby-plugin-alias-imports": "^1.0.5",
+    "gatsby-plugin-manifest": "^2.3.3",
+    "gatsby-plugin-offline": "^3.1.2",
+    "gatsby-plugin-react-helmet": "^3.2.1",
+    "gatsby-plugin-sharp": "^2.5.3",
+    "gatsby-plugin-typescript": "^2.3.1",
+    "gatsby-source-filesystem": "^2.2.2",
+    "gatsby-transformer-sharp": "^2.4.3",
+    "i18next": "^19.3.4",
+    "md5": "^2.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^5.2.1",
+    "react-i18next": "^11.3.4"
   },
-  "files": [
-    "lib"
-  ],
+  "devDependencies": {
+    "@types/node": "^13.9.8",
+    "@types/md5": "^2.1.33",
+    "@types/react": "^16.9.29",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-helmet": "^5.0.15",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-simple-import-sort": "^5.0.2",
+    "prettier": "^2.0.2",
+    "typescript": "^3.8.3"
+  },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "gatsby build",
+    "dev": "gatsby develop",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
   }
 }
