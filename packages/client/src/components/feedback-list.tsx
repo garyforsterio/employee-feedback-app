@@ -52,7 +52,7 @@ const FeedbackList: FunctionComponent<FeedbackListProps> = () => {
     fetchRequest();
   }, [token, user]);
 
-  const handleSubmit = async (review: Review): void => {
+  const handleSubmit = async (review: Review): Promise<void> => {
     const response = await fetch(API_BASE + '/reviews', {
       method: 'POST',
       headers: {

@@ -60,7 +60,7 @@ const RequestFeedbackDialog: FunctionComponent<RequestFeedbackDialogProps> = ({
   useEffect(() => {
     const fetchRequests = async (): Promise<void> => {
       const response = await fetch(
-        API_BASE + '/requests?evaluateeId=' + userId,
+        API_BASE + '/requests?completed=false&evaluateeId=' + userId,
         {
           headers: {
             Authorization: `Bearer ${token}`,

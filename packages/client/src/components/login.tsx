@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Button, LinearProgress } from '@material-ui/core';
+import { Box, Button, LinearProgress, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { RouteComponentProps } from '@reach/router';
-import { navigate } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 
 import Layout from '@/components/layout';
 
@@ -42,8 +42,8 @@ const Login: FunctionComponent<LoginProps> = ({ isRegistration }) => {
       return;
     }
     if (isRegistration && password !== passwordConfirm) {
-      console.log('passwords do not match');
-      // TODO: add feedback
+      // TODO: add better feedback
+      window.alert('Passwords do not match');
       return;
     }
     login(email, password, isRegistration);
@@ -60,44 +60,59 @@ const Login: FunctionComponent<LoginProps> = ({ isRegistration }) => {
         justifySelf="center"
       >
         <form autoComplete="off" noValidate onSubmit={onSubmit}>
-          <div>
-            <TextField
-              disabled={loading}
-              label={t('login.email')}
-              margin="normal"
-              onChange={handleChange(setEmail)}
-              type="email"
-              value={email}
-              variant="outlined"
-            />
-          </div>
-          <div>
-            <TextField
-              disabled={loading}
-              label={t('login.password')}
-              margin="normal"
-              onChange={handleChange(setPassword)}
-              type="password"
-              value={password}
-              variant="outlined"
-            />
-          </div>
-          {isRegistration && (
+          <Box mb={3}>
             <div>
               <TextField
                 disabled={loading}
-                label={t('login.passwordConfirm')}
+                label={t('login.email')}
                 margin="normal"
-                onChange={handleChange(setPasswordConfirm)}
-                type="password"
-                value={passwordConfirm}
+                onChange={handleChange(setEmail)}
+                type="email"
+                value={email}
                 variant="outlined"
               />
             </div>
-          )}
-          <Button color="secondary" fullWidth type="submit" variant="contained">
+            <div>
+              <TextField
+                disabled={loading}
+                label={t('login.password')}
+                margin="normal"
+                onChange={handleChange(setPassword)}
+                type="password"
+                value={password}
+                variant="outlined"
+              />
+            </div>
+            {isRegistration && (
+              <div>
+                <TextField
+                  disabled={loading}
+                  label={t('login.passwordConfirm')}
+                  margin="normal"
+                  onChange={handleChange(setPasswordConfirm)}
+                  type="password"
+                  value={passwordConfirm}
+                  variant="outlined"
+                />
+              </div>
+            )}
+          </Box>
+          <Button
+            color="secondary"
+            disabled={loading || !email || !password}
+            fullWidth
+            type="submit"
+            variant="contained"
+          >
             {t(`login.submit.${isRegistration ? 'register' : 'login'}`)}
           </Button>
+          <Box mt={1}>
+            <Link to={isRegistration ? '/login/' : '/register/'}>
+              <Typography align="center" color="textSecondary">
+                {t(`login.switch.${isRegistration ? 'register' : 'login'}`)}
+              </Typography>
+            </Link>
+          </Box>
         </form>
       </Box>
     </Layout>

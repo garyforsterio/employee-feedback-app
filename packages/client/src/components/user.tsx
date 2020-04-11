@@ -31,6 +31,9 @@ const useStyles = makeStyles(() =>
       width: 300,
       margin: 10,
     },
+    details: {
+      height: 120,
+    },
   }),
 );
 
@@ -44,7 +47,6 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
   const [requestModalOpen, setRequestModalOpen] = useState(false);
 
   const avatar = getGravatarUrl(data.email);
-  const rating = 75;
 
   const handleDeleteClick = async (): Promise<void> => {
     const url = `${API_BASE}/users/${data._id}`;
@@ -81,17 +83,38 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
         title={data.name}
       />
       <CardContent>
-        <Box alignItems="center" display="flex" justifyContent="space-around">
-          <Typography color="textSecondary" variant="body2">
-            {t('user.rating')}
-          </Typography>
-          <CircularProgress
-            color="secondary"
-            size={100}
-            thickness={15}
-            value={rating}
-            variant="static"
-          />
+        <Box
+          alignItems="center"
+          className={classes.details}
+          display="flex"
+          justifyContent="space-around"
+        >
+          <Box>
+            <Typography color="textSecondary" variant="body2">
+              {t('user.rating')}
+            </Typography>
+            <Typography color="textSecondary" variant="caption">
+              {data.averageRating
+                ? `${Math.round(data.averageRating * 100)}%`
+                : t('user.noData')}
+            </Typography>
+          </Box>
+          {!data.averageRating && (
+            <Box mr={2}>
+              <Typography color="textSecondary" variant="body2">
+                {t('user.noData')}
+              </Typography>
+            </Box>
+          )}
+          {data.averageRating && (
+            <CircularProgress
+              color="secondary"
+              size={100}
+              thickness={15}
+              value={data.averageRating * 100}
+              variant="static"
+            />
+          )}
         </Box>
       </CardContent>
       <CardActions disableSpacing>

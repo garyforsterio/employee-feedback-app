@@ -128,7 +128,7 @@ const CreateUser: FunctionComponent<CreateUserProps> = ({ userId }) => {
               variant="outlined"
             />
           </div>
-          <div>
+          <Box display="flex" justifyContent="center" mb={2} mt={1}>
             <FormControlLabel
               control={
                 <Switch
@@ -138,7 +138,7 @@ const CreateUser: FunctionComponent<CreateUserProps> = ({ userId }) => {
               }
               label={t('createUser.admin')}
             />
-          </div>
+          </Box>
           <Button
             color="secondary"
             disabled={loading}

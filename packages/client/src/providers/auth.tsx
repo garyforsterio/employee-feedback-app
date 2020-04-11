@@ -11,6 +11,8 @@ import { API_BASE, LOCAL_STORAGE_TOKEN_KEY } from '../constants';
 interface TokenPayload {
   id: string;
   admin: boolean;
+  iat: number;
+  exp: number;
 }
 
 type AuthContextType = {
@@ -35,16 +37,12 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
     : localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
 
   const decodedToken = storedToken
-    ? (decode(storedToken) as {
-        user: TokenPayload;
-        iat: number;
-        exp: number;
-      })
+    ? (decode(storedToken) as TokenPayload)
     : null;
 
   const [isAuthenticated, setIsAuthenticated] = useState(!!storedToken);
   const [token, setToken] = useState(storedToken);
-  const [user, setUser] = useState(decodedToken ? decodedToken.user : null);
+  const [user, setUser] = useState(decodedToken);
   const [loading, setLoading] = useState(false);
 
   const login = async (
@@ -67,19 +65,20 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
           }), // body data type must match "Content-Type" header
         },
       );
+      if (response.status >= 300) {
+        const message = await response.text();
+        throw message;
+      }
       const { token } = (await response.json()) as { token: string };
       localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
-      const decodedToken = decode(token) as {
-        user: TokenPayload;
-        iat: number;
-        exp: number;
-      };
+      const decodedToken = decode(token) as TokenPayload;
       setToken(token);
-      setUser(decodedToken.user);
+      setUser(decodedToken);
       setIsAuthenticated(true);
       setLoading(false);
     } catch (error) {
-      // TODO: handle errors
+      // TODO: handle errors better
+      window.alert(error);
       console.error(error);
       setLoading(false);
       return;
