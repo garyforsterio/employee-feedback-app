@@ -1,0 +1,11 @@
+node_modules
+Dockerfile
+.dockerignore
+public
+.cache
+.eslintignore
+.eslintrc.js
+.prettierignore
+.prettierrc.json
+.example.env
+README.md
