@@ -109,22 +109,22 @@ const CreateUser: FunctionComponent<CreateUserProps> = ({ userId }) => {
           <div>
             <TextField
               disabled={loading}
-              label={t('createUser.email')}
+              label={t('createUser.name')}
               margin="normal"
-              onChange={handleChange(setEmail)}
-              type="email"
-              value={email}
+              onChange={handleChange(setName)}
+              type="text"
+              value={name}
               variant="outlined"
             />
           </div>
           <div>
             <TextField
               disabled={loading}
-              label={t('createUser.name')}
+              label={t('createUser.email')}
               margin="normal"
-              onChange={handleChange(setName)}
-              type="text"
-              value={name}
+              onChange={handleChange(setEmail)}
+              type="email"
+              value={email}
               variant="outlined"
             />
           </div>

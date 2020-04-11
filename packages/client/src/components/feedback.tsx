@@ -118,7 +118,7 @@ const Feedback: FunctionComponent<FeedbackProps> = ({
             </Box>
             <Box alignItems="center" display="flex" mb={2} mt={1}>
               <Rating
-                name="rating"
+                name={'rating' + user._id}
                 onChange={handleRatingChange}
                 onChangeActive={handleRatingActiveChange}
                 precision={0.5}

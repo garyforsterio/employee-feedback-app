@@ -17,20 +17,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: ``,
-        short_name: ``,
-        start_url: `/`,
-        background_color: `#3f51b5`,
-        theme_color: `#3f51b5`,
-        display: `minimal-ui`,
-        icon: `src/images/icon.svg`,
-      },
-    },
     'gatsby-plugin-typescript',
     'gatsby-plugin-offline',
     {
@@ -45,7 +31,7 @@ module.exports = {
       },
     },
     // Report errors to sentry
-    // TODO: next step
+    // TODO: setup error reporting step
     // {
     //   resolve: 'gatsby-plugin-sentry',
     //   options: {

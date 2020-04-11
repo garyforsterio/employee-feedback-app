@@ -49,6 +49,13 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
   const avatar = getGravatarUrl(data.email);
 
   const handleDeleteClick = async (): Promise<void> => {
+    // TODO better confirm
+    const confirm = window.confirm(
+      `Are you sure you want to delete ${data.name}?`,
+    );
+    if (!confirm) {
+      return;
+    }
     const url = `${API_BASE}/users/${data._id}`;
     const response = await fetch(url, {
       method: 'DELETE',
@@ -74,8 +81,8 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
     <Card className={classes.root}>
       <CardHeader
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton component={Link} to={`/users/${data._id}`}>
+            <EditIcon />
           </IconButton>
         }
         avatar={<Avatar src={avatar} />}
@@ -118,13 +125,10 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
         </Box>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton component={Link} to={`/users/${data._id}`}>
-          <EditIcon />
-        </IconButton>
+        <Box flex="1" />
         <IconButton onClick={handleFeedbackClick}>
           <AddCommentIcon />
         </IconButton>
-        {/* TODO add spacing */}
         {currentUser && data._id !== currentUser.id && (
           <IconButton onClick={handleDeleteClick}>
             <DeleteIcon />
