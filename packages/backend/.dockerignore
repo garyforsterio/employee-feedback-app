@@ -6,7 +6,5 @@ dist
 .eslintrc.js
 .prettierignore
 .prettierrc.json
-mongo-init.js
 .example.env
-docker-compose.yml
 README.md

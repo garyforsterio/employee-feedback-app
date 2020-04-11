@@ -7,11 +7,8 @@ services:
       MONGO_INITDB_DATABASE: ${DB_NAME}
     expose:
       - 27017
-    # For devolpment
-    ports:
-      - 27017:27017
     volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./dummy-data:/docker-entrypoint-initdb.d/
     networks:
       - db-network
   admin:
@@ -20,23 +17,32 @@ services:
       CONN_NAME: admin-connection
       DB_HOST: db
       DB_PORT: 27017
-      PASSWORD: ${ADMIN_PASSWORD}
       HOST: 0.0.0.0
     ports:
       - 1234:1234
     networks:
       - db-network
-  app:
-    build: .
+  server:
+    build: ./packages/backend/
     restart: always
     expose:
       - 3000
-    links:
-      - db
     networks:
       - db-network
+      - app-network
     command: npm start
+  app:
+    build: ./packages/client/
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
 volumes:
   my-db:
 networks:
   db-network:
+  app-network:
