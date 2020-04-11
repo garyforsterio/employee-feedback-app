@@ -1,18 +1,15 @@
 import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
-import { IsInt, IsString, Length, Max, Min } from 'class-validator';
+import { IsOptional, IsString, Length, Max, Min } from 'class-validator';
 
 export class Review extends defaultClasses.TimeStamps {
   @prop({ required: true })
-  @IsString()
-  @Length(24, 24)
-  requestId!: string;
-  @prop({ required: true })
-  @IsInt()
   @Min(0)
   @Max(5)
   rating!: number;
-  @prop({ required: true })
+
+  @prop()
   @IsString()
+  @IsOptional()
   @Length(0, 5000)
   feedback!: string;
 }

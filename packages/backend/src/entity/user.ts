@@ -1,5 +1,14 @@
 import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
-import { IsBoolean, IsEmail, IsString, Length } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Length,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class User extends defaultClasses.TimeStamps {
   @prop({ required: true })
@@ -10,11 +19,20 @@ export class User extends defaultClasses.TimeStamps {
   @prop({ required: true })
   @IsEmail()
   email!: string;
+
   @prop()
   password: string;
+
   @prop({ required: true })
   @IsBoolean()
   admin!: boolean;
+
+  @prop()
+  @IsNumber()
+  @IsOptional()
+  @Min(0)
+  @Max(5)
+  averageRating: number;
 }
 
 export const userModel = getModelForClass(User);

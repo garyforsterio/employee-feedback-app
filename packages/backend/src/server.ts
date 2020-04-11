@@ -15,6 +15,7 @@ mongoose
   .connect(`mongodb://${config.dbHost}:${config.dbPort}/`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
     dbName: config.dbName,
   })
   .then(() => {

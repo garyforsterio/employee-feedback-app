@@ -17,6 +17,7 @@ const saltRounds = 10;
 
 const REQUEST_ADDITION =
   'Please request your administrator to first add you to the system';
+const REGISTER_PROMPT = 'Please use the registration page';
 const ALREADY_REGISTERED = 'An account already exists for that email address';
 const INCORRECT_PASSWORD = 'Incorrect password';
 const INVALID_PASSWORD =
@@ -41,10 +42,8 @@ export const loginSchema = {
  */
 function getToken(user: DocumentType<User>): string {
   const payload = {
-    user: {
-      id: user._id,
-      admin: user.admin,
-    },
+    id: user._id,
+    admin: user.admin,
   };
 
   return jwt.sign(payload, config.jwtSecret, {
@@ -100,9 +99,15 @@ export default class AuthController {
   public static async login(ctx: BaseContext): Promise<void> {
     const user = await userModel.findOne({ email: ctx.request.body.email });
 
-    if (!user || !user.password) {
+    if (!user) {
       ctx.status = 400;
       ctx.body = REQUEST_ADDITION;
+      return;
+    }
+
+    if (!user.password) {
+      ctx.status = 400;
+      ctx.body = REGISTER_PROMPT;
       return;
     }
 

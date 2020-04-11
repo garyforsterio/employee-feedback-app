@@ -56,6 +56,11 @@ export default class UserController {
   @summary('Create a user')
   @body(userSchema)
   public static async createUser(ctx: BaseContext): Promise<void> {
+    // Admins only
+    if (!ctx.state.user.admin) {
+      ctx.status = 403;
+      return;
+    }
     // Build up new user to be saved
     const newUser: User = new User();
     newUser.name = ctx.request.body.name;
@@ -95,6 +100,11 @@ export default class UserController {
   })
   @body(userSchema)
   public static async updateUser(ctx: BaseContext): Promise<void> {
+    // Admins only
+    if (!ctx.state.user.admin) {
+      ctx.status = 403;
+      return;
+    }
     const updatedUser: User = new User();
     updatedUser.name = ctx.request.body.name;
     updatedUser.email = ctx.request.body.email;
@@ -138,6 +148,12 @@ export default class UserController {
     id: { type: 'string', required: true, description: 'ID of the user' },
   })
   public static async deleteUser(ctx: BaseContext): Promise<void> {
+    // Admins only
+    if (!ctx.state.user.admin) {
+      ctx.status = 403;
+      return;
+    }
+
     const userToRemove = await userModel.findById(ctx.params.id);
 
     if (!userToRemove) {

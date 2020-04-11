@@ -3,6 +3,7 @@ import { BaseContext } from 'koa';
 import {
   body,
   path,
+  query,
   request,
   responses,
   responsesAll,
@@ -10,7 +11,13 @@ import {
   tagsAll,
 } from 'koa-swagger-decorator';
 
-import { Request, requestModel, requestSchema } from '../entity/request';
+import {
+  QueryParams,
+  queryParamsSchema,
+  Request,
+  requestModel,
+  requestSchema,
+} from '../entity/request';
 
 const NO_REQUEST_FOUND = 'The associated request could not be found';
 const DUPLICATE_REQUEST = 'The specified request has already been made';
@@ -25,8 +32,35 @@ const DUPLICATE_REQUEST = 'The specified request has already been made';
 export default class RequestController {
   @request('get', '/requests')
   @summary('Get all requests')
+  @query(queryParamsSchema)
   public static async getRequests(ctx: BaseContext): Promise<void> {
-    const requests = await requestModel.find({}, '-__v').lean();
+    // Get query params
+    const query = Object.entries(ctx.query).reduce(
+      (
+        query,
+        [key, value]: ['evaluatorId' | 'evaluateeId' | 'completed', string],
+      ) => {
+        // Cast completed value to bool
+        if (key === 'completed') {
+          query[key] = value === 'false' ? false : true;
+        } else {
+          query[key] = value;
+        }
+        return query;
+      },
+      new QueryParams(),
+    );
+
+    // Validate
+    const errors: ValidationError[] = await validate(query);
+
+    if (errors.length > 0) {
+      ctx.status = 400;
+      ctx.body = errors;
+      return;
+    }
+
+    const requests = await requestModel.find(query, '-__v').lean();
 
     ctx.status = 200;
     ctx.body = requests;
@@ -55,6 +89,12 @@ export default class RequestController {
   @summary('Create a request')
   @body(requestSchema)
   public static async createRequest(ctx: BaseContext): Promise<void> {
+    // Admins only
+    if (!ctx.state.user.admin) {
+      ctx.status = 403;
+      return;
+    }
+
     // Build up new request to be saved
     const newRequest: Request = new Request();
     newRequest.evaluateeId = ctx.request.body.evaluateeId;
@@ -93,6 +133,12 @@ export default class RequestController {
     id: { type: 'string', required: true, description: 'ID of the request' },
   })
   public static async deleteRequest(ctx: BaseContext): Promise<void> {
+    // Admins only
+    if (!ctx.state.user.admin) {
+      ctx.status = 403;
+      return;
+    }
+
     const requestToRemove = await requestModel.findById(ctx.params.id);
 
     if (!requestToRemove) {
