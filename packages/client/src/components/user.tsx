@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, CircularProgress } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,15 +9,17 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import AddCommentIcon from '@material-ui/icons/AddComment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'gatsby';
-import md5 from 'md5';
 
 import { User as IUser } from '..';
-import { API_BASE, GRAVATAR_URL } from '../constants';
+import { API_BASE } from '../constants';
 import { useAuth } from '../providers/auth';
+import getGravatarUrl from '../utilities/get-gravatar-url';
+import RequestFeedbackDialog from './request-feedback-dialog';
 
 type UserProps = {
   data: IUser;
@@ -37,9 +39,11 @@ const useStyles = makeStyles(() =>
  */
 const User: FunctionComponent<UserProps> = ({ data }) => {
   const { t } = useTranslation();
-  const { token, user } = useAuth();
+  const { token, user: currentUser } = useAuth();
   const classes = useStyles();
-  const image = GRAVATAR_URL + md5(data.email) + '?d=robohash';
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+
+  const avatar = getGravatarUrl(data.email);
   const rating = 75;
 
   const handleDeleteClick = async (): Promise<void> => {
@@ -51,9 +55,17 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
       },
     });
     if (response.status < 300) {
-      // TODO: reload data
+      // TODO: reload data, not window
       location.reload();
     }
+  };
+
+  const handleFeedbackClick = (): void => {
+    setRequestModalOpen(true);
+  };
+
+  const handleRequestModalClose = (): void => {
+    setRequestModalOpen(false);
   };
 
   return (
@@ -64,7 +76,7 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        avatar={<Avatar src={image} />}
+        avatar={<Avatar src={avatar} />}
         subheader={data.email}
         title={data.name}
       />
@@ -83,15 +95,26 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
         </Box>
       </CardContent>
       <CardActions disableSpacing>
-        {user && data._id !== user.id && (
+        <IconButton component={Link} to={`/users/${data._id}`}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={handleFeedbackClick}>
+          <AddCommentIcon />
+        </IconButton>
+        {/* TODO add spacing */}
+        {currentUser && data._id !== currentUser.id && (
           <IconButton onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
         )}
-        <IconButton component={Link} to={`/users/${data._id}`}>
-          <EditIcon />
-        </IconButton>
       </CardActions>
+      {requestModalOpen && (
+        <RequestFeedbackDialog
+          onClose={handleRequestModalClose}
+          open={requestModalOpen}
+          userId={data._id}
+        />
+      )}
     </Card>
   );
 };

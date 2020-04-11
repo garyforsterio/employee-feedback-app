@@ -15,6 +15,11 @@
   "login.passwordConfirm": "Confirm Password",
   "login.submit.login": "Login",
   "login.submit.register": "Register",
+  "requestFeedbackDialog.title": "Request feedback",
+  "requestFeedbackDialog.instruction": "Please select users to request feedback from",
+  "requestFeedbackDialog.sent": "Sent",
+  "requestFeedbackDialog.cancel": "Cancel",
+  "requestFeedbackDialog.send": "Send",
   "user.rating": "Avg Rating:",
-  "users.title": "Employees"
+  "users.title": "Admin console"
 }
