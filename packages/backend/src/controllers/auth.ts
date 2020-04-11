@@ -57,7 +57,7 @@ function getToken(user: DocumentType<User>): string {
 })
 @tagsAll(['Auth'])
 export default class AuthController {
-  @request('post', '/register')
+  @request('post', '/api/register')
   @summary(
     'Register for an account given that you have been added to the system by admin',
   )
@@ -93,7 +93,7 @@ export default class AuthController {
     };
   }
 
-  @request('post', '/login')
+  @request('post', '/api/login')
   @summary('Login to an account')
   @body(loginSchema)
   public static async login(ctx: BaseContext): Promise<void> {

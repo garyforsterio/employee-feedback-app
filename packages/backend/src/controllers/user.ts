@@ -24,7 +24,7 @@ const DUPLICATE_EMAIL_ADDRESS = 'The specified email address is already in use';
 })
 @tagsAll(['User'])
 export default class UserController {
-  @request('get', '/users')
+  @request('get', '/api/users')
   @summary('Get all users')
   public static async getUsers(ctx: BaseContext): Promise<void> {
     const users = await userModel.find({}, '-__v -password').lean();
@@ -33,7 +33,7 @@ export default class UserController {
     ctx.body = users;
   }
 
-  @request('get', '/users/{id}')
+  @request('get', '/api/users/{id}')
   @summary('Get user by id')
   @path({
     id: { type: 'string', required: true, description: 'ID of the user' },
@@ -51,7 +51,7 @@ export default class UserController {
     ctx.body = user;
   }
 
-  @request('post', '/users')
+  @request('post', '/api/users')
   @responses()
   @summary('Create a user')
   @body(userSchema)
@@ -93,7 +93,7 @@ export default class UserController {
     ctx.body = user;
   }
 
-  @request('put', '/users/{id}')
+  @request('put', '/api/users/{id}')
   @summary('Update a user')
   @path({
     id: { type: 'string', required: true, description: 'ID of the user' },
@@ -142,7 +142,7 @@ export default class UserController {
     ctx.status = 200;
   }
 
-  @request('delete', '/users/{id}')
+  @request('delete', '/api/users/{id}')
   @summary('Delete user by id')
   @path({
     id: { type: 'string', required: true, description: 'ID of the user' },

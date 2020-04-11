@@ -17,10 +17,10 @@ router.map(review, {});
 router.swagger({
   title: 'Feedback backend - Protected',
   description:
-    'REST API for obtaining, requesting, and creating employee feedback',
+    'Protected REST API for obtaining, requesting, and creating employee feedback',
   version: '1.0.0',
-  swaggerHtmlEndpoint: '/swagger-protected-html',
-  swaggerJsonEndpoint: '/swagger-protected-json',
+  swaggerHtmlEndpoint: '/api/docs-protected',
+  swaggerJsonEndpoint: '/api/docs-protected-json',
 });
 
 export default router;

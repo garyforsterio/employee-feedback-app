@@ -30,7 +30,7 @@ const DUPLICATE_REQUEST = 'The specified request has already been made';
 })
 @tagsAll(['Request'])
 export default class RequestController {
-  @request('get', '/requests')
+  @request('get', '/api/requests')
   @summary('Get all requests')
   @query(queryParamsSchema)
   public static async getRequests(ctx: BaseContext): Promise<void> {
@@ -66,7 +66,7 @@ export default class RequestController {
     ctx.body = requests;
   }
 
-  @request('get', '/requests/{id}')
+  @request('get', '/api/requests/{id}')
   @summary('Get request by id')
   @path({
     id: { type: 'string', required: true, description: 'ID of the request' },
@@ -84,7 +84,7 @@ export default class RequestController {
     ctx.body = request;
   }
 
-  @request('post', '/requests')
+  @request('post', '/api/requests')
   @responses()
   @summary('Create a request')
   @body(requestSchema)
@@ -127,7 +127,7 @@ export default class RequestController {
     ctx.body = request;
   }
 
-  @request('delete', '/requests/{id}')
+  @request('delete', '/api/requests/{id}')
   @summary('Delete request by id')
   @path({
     id: { type: 'string', required: true, description: 'ID of the request' },

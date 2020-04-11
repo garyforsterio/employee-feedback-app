@@ -41,7 +41,7 @@ mongoose
     // Anything below is unauthorized if JWT token is invalid
     // Exclude swagger endpoints
     app.use(
-      jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }),
+      jwt({ secret: config.jwtSecret }).unless({ path: [/^\/api\/docs-/] }),
     );
 
     app.use(protectedRouter.routes()).use(protectedRouter.allowedMethods());

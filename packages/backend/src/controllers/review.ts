@@ -27,7 +27,7 @@ const REVIEW_MAX_VALUE = 5;
 })
 @tagsAll(['Review'])
 export default class ReviewController {
-  @request('get', '/reviews')
+  @request('get', '/api/reviews')
   @summary('Get all reviews')
   public static async getReviews(ctx: BaseContext): Promise<void> {
     // Admins only
@@ -42,7 +42,7 @@ export default class ReviewController {
     ctx.body = reviews;
   }
 
-  @request('get', '/reviews/{id}')
+  @request('get', '/api/reviews/{id}')
   @summary('Get review by id')
   @path({
     id: { type: 'string', required: true, description: 'ID of the review' },
@@ -66,7 +66,7 @@ export default class ReviewController {
     ctx.body = review;
   }
 
-  @request('post', '/reviews')
+  @request('post', '/api/reviews')
   @responses()
   @summary('Create a review')
   @body(reviewSchema)
