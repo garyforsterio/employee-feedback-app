@@ -14,7 +14,7 @@ const IndexPage: FunctionComponent = () => {
       <PrivateRoute component={Users} path="/users" />
       <PrivateRoute component={CreateUser} path="/users/create" />
       <PrivateRoute component={CreateUser} path="/users/:userId" />
-      <Redirect from="/" to="/users/" />
+      <Redirect from="/" noThrow to="/users/" />
     </Router>
   );
 };
