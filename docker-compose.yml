@@ -11,17 +11,18 @@ services:
       - ./dummy-data:/docker-entrypoint-initdb.d/
     networks:
       - db-network
-  admin:
-    image: mrvautin/adminmongo:latest
-    environment:
-      CONN_NAME: admin-connection
-      DB_HOST: db
-      DB_PORT: 27017
-      HOST: 0.0.0.0
-    ports:
-      - 1234:1234
-    networks:
-      - db-network
+  # db management sceen used for debugging etc
+  # admin:
+  #   image: mrvautin/adminmongo:latest
+  #   environment:
+  #     CONN_NAME: admin-connection
+  #     DB_HOST: db
+  #     DB_PORT: 27017
+  #     HOST: 0.0.0.0
+  #   ports:
+  #     - 1234:1234
+  #   networks:
+  #     - db-network
   server:
     build: ./packages/backend/
     restart: always
