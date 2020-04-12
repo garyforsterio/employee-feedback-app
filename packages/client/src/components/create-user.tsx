@@ -141,7 +141,7 @@ const CreateUser: FunctionComponent<CreateUserProps> = ({ userId }) => {
           </Box>
           <Button
             color="secondary"
-            disabled={loading}
+            disabled={loading || !email || !name}
             fullWidth
             type="submit"
             variant="contained"

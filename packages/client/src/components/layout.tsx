@@ -10,6 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AddCommetIcon from '@material-ui/icons/AddComment';
 import GroupIcon from '@material-ui/icons/Group';
+import { Router } from '@reach/router';
 import { Link, navigate } from 'gatsby';
 
 import { useAuth } from '../providers/auth';
@@ -39,30 +40,62 @@ const Layout: FunctionComponent<LayoutProps> = ({ title, children }) => {
     navigate('/login/');
   };
 
+  let pathname = '';
+
+  // SSR safeguard
+  if (typeof window !== 'undefined') {
+    pathname = window.location.pathname;
+  }
+
   return (
     <Box className={classes.root} display="flex" flexDirection="column">
       <Helmet>
-        <title>{title}</title>
+        <title>
+          {t('global.title')} : {title}
+        </title>
       </Helmet>
       <AppBar position="static">
         <Toolbar>
+          <Box display={{ xs: 'none', sm: 'block' }} mr={1}>
+            <Typography className={classes.title} variant="h6">
+              {t('global.title')} |
+            </Typography>
+          </Box>
           <Typography className={classes.title} variant="h6">
             {title}
           </Typography>
           {user && user.admin && (
             <>
-              <IconButton color="inherit" component={Link} to="/users">
-                <GroupIcon />
-              </IconButton>
-              <IconButton color="inherit" component={Link} to="/feedback">
-                <AddCommetIcon />
-              </IconButton>
+              {pathname.indexOf('/users') === -1 && (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  startIcon={<GroupIcon />}
+                  to="/users/"
+                  variant="outlined"
+                >
+                  Admin
+                </Button>
+              )}
+              {pathname.indexOf('/feedback') === -1 && (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  startIcon={<AddCommetIcon />}
+                  to="/feedback/"
+                  variant="outlined"
+                >
+                  Feedback
+                </Button>
+              )}
             </>
           )}
           {isAuthenticated && (
-            <Button color="inherit" onClick={handleLogoutClick}>
-              {t('layout.logout')}
-            </Button>
+            <Box ml={3}>
+              <Button color="inherit" onClick={handleLogoutClick}>
+                {t('layout.logout')}
+              </Button>
+            </Box>
           )}
         </Toolbar>
       </AppBar>

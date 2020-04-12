@@ -12,24 +12,26 @@ import Typography from '@material-ui/core/Typography';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Link } from 'gatsby';
 
 import { User as IUser } from '..';
-import { API_BASE } from '../constants';
 import { useAuth } from '../providers/auth';
 import getGravatarUrl from '../utilities/get-gravatar-url';
 import RequestFeedbackDialog from './request-feedback-dialog';
 
 type UserProps = {
-  data: IUser;
+  user: IUser;
+  onDeleteClick: (id: string) => void;
 };
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       width: 300,
       margin: 10,
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+      },
     },
     details: {
       height: 120,
@@ -38,35 +40,25 @@ const useStyles = makeStyles(() =>
 );
 
 /**
- * Displays basic user info for admin screen
+ * Presentational component displaying basic user info for admin screen
  */
-const User: FunctionComponent<UserProps> = ({ data }) => {
+const User: FunctionComponent<UserProps> = ({ user, onDeleteClick }) => {
   const { t } = useTranslation();
-  const { token, user: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const classes = useStyles();
   const [requestModalOpen, setRequestModalOpen] = useState(false);
 
-  const avatar = getGravatarUrl(data.email);
+  const avatar = getGravatarUrl(user.email);
 
   const handleDeleteClick = async (): Promise<void> => {
     // TODO better confirm
     const confirm = window.confirm(
-      `Are you sure you want to delete ${data.name}?`,
+      `Are you sure you want to delete ${user.name}?`,
     );
     if (!confirm) {
       return;
     }
-    const url = `${API_BASE}/users/${data._id}`;
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (response.status < 300) {
-      // TODO: reload data, not window
-      location.reload();
-    }
+    onDeleteClick(user._id);
   };
 
   const handleFeedbackClick = (): void => {
@@ -81,13 +73,13 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
     <Card className={classes.root}>
       <CardHeader
         action={
-          <IconButton component={Link} to={`/users/${data._id}`}>
+          <IconButton component={Link} to={`/users/${user._id}`}>
             <EditIcon />
           </IconButton>
         }
         avatar={<Avatar src={avatar} />}
-        subheader={data.email}
-        title={data.name}
+        subheader={user.email}
+        title={user.name}
       />
       <CardContent>
         <Box
@@ -101,24 +93,24 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
               {t('user.rating')}
             </Typography>
             <Typography color="textSecondary" variant="caption">
-              {data.averageRating
-                ? `${Math.round(data.averageRating * 100)}%`
+              {user.averageRating
+                ? `${Math.round(user.averageRating * 100)}%`
                 : t('user.noData')}
             </Typography>
           </Box>
-          {!data.averageRating && (
+          {!user.averageRating && (
             <Box mr={2}>
               <Typography color="textSecondary" variant="body2">
                 {t('user.noData')}
               </Typography>
             </Box>
           )}
-          {data.averageRating && (
+          {user.averageRating && (
             <CircularProgress
               color="secondary"
               size={100}
               thickness={15}
-              value={data.averageRating * 100}
+              value={user.averageRating * 100}
               variant="static"
             />
           )}
@@ -129,7 +121,7 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
         <IconButton onClick={handleFeedbackClick}>
           <AddCommentIcon />
         </IconButton>
-        {currentUser && data._id !== currentUser.id && (
+        {currentUser && user._id !== currentUser.id && (
           <IconButton onClick={handleDeleteClick}>
             <DeleteIcon />
           </IconButton>
@@ -139,7 +131,7 @@ const User: FunctionComponent<UserProps> = ({ data }) => {
         <RequestFeedbackDialog
           onClose={handleRequestModalClose}
           open={requestModalOpen}
-          userId={data._id}
+          userId={user._id}
         />
       )}
     </Card>

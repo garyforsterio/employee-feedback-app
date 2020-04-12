@@ -1,4 +1,5 @@
 {
+  "global.title": "Employee Evaluator",
   "404.message": "Not found",
   "createUser.title.create": "Create User",
   "createUser.title.update": "Update User",
@@ -30,5 +31,5 @@
   "requestFeedbackDialog.send": "Send",
   "user.noData": "No data",
   "user.rating": "Avg Rating:",
-  "users.title": "Admin console"
+  "users.title": "Admin Console"
 }

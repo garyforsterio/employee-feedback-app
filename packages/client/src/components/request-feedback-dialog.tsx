@@ -74,12 +74,12 @@ const RequestFeedbackDialog: FunctionComponent<RequestFeedbackDialogProps> = ({
     fetchRequests();
   }, [token]);
 
-  const handleToggle = (value: string) => (): void => {
-    const currentIndex = checked.indexOf(value);
+  const handleToggle = (userId: string) => (): void => {
+    const currentIndex = checked.indexOf(userId);
     const newChecked = [...checked];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newChecked.push(userId);
     } else {
       newChecked.splice(currentIndex, 1);
     }
@@ -130,7 +130,7 @@ const RequestFeedbackDialog: FunctionComponent<RequestFeedbackDialogProps> = ({
               (request) => request.evaluatorId === user._id,
             );
             return (
-              <ListItem button key={user._id}>
+              <ListItem button key={user._id} onClick={handleToggle(user._id)}>
                 <ListItemAvatar>
                   <Avatar src={getGravatarUrl(user.email)} />
                 </ListItemAvatar>
