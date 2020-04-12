@@ -94,10 +94,10 @@ The following frameworks are used:
 
 ![Request feedback](./screenshots/admin-desktop-2.jpg 'Request feedback')
 
-![Mobile version](./screenshots/admin-mobile.jpg 'Mobile version')
+<img src="./screenshots/admin-mobile.jpg" title="Mobile Version" width="300" />
 
 #### Feedback page
 
 ![Feedback page](./screenshots/feedback-desktop.jpg 'Feedback page')
 
-![Mobile version](./screenshots/feedback-mobile.jpg 'Mobile version')
+<img src="./screenshots/feedback-mobile.jpg" title="Mobile Version" width="300" />
