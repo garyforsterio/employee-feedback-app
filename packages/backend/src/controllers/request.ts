@@ -10,6 +10,7 @@ import {
   summary,
   tagsAll,
 } from 'koa-swagger-decorator';
+import mongoose from 'mongoose';
 
 import {
   QueryParams,
@@ -35,21 +36,7 @@ export default class RequestController {
   @query(queryParamsSchema)
   public static async getRequests(ctx: BaseContext): Promise<void> {
     // Get query params
-    const query = Object.entries(ctx.query).reduce(
-      (
-        query,
-        [key, value]: ['evaluatorId' | 'evaluateeId' | 'completed', string],
-      ) => {
-        // Cast completed value to bool
-        if (key === 'completed') {
-          query[key] = value === 'false' ? false : true;
-        } else {
-          query[key] = value;
-        }
-        return query;
-      },
-      new QueryParams(),
-    );
+    const query = new QueryParams(ctx.query);
 
     // Validate
     const errors: ValidationError[] = await validate(query);

@@ -29,6 +29,17 @@ export class Request extends defaultClasses.TimeStamps {
 }
 
 export class QueryParams {
+  constructor(props: any) {
+    if (props.evaluateeId) {
+      this.evaluateeId = props.evaluateeId;
+    }
+    if (props.evaluatorId) {
+      this.evaluatorId = props.evaluatorId;
+    }
+    if (props.completed) {
+      this.completed = props.completed === 'false' ? false : true;
+    }
+  }
   @IsString()
   @IsOptional()
   @Length(24, 24)
