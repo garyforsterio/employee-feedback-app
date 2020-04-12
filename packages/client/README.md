@@ -6,6 +6,8 @@ This package contains a web application for the evaluation and management of emp
 
 Please see the repository main read me file for overview.
 
+---
+
 ### Development
 
 All source code is written in Typescript.
@@ -28,6 +30,8 @@ To build the project run:
 npm run build
 ```
 
+---
+
 #### Frameworks
 
 The following frameworks are used:
@@ -36,6 +40,8 @@ The following frameworks are used:
 - Gatsby
 - i18next
 - Typescript
+
+---
 
 ### Deployment
 
