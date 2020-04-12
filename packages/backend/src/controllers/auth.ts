@@ -13,7 +13,7 @@ import {
 import config from '../config';
 import { User, userModel } from '../entity/user';
 
-const saltRounds = 10;
+const SALT_ROUNDS = 10;
 
 const REQUEST_ADDITION =
   'Please request your administrator to first add you to the system';
@@ -83,7 +83,7 @@ export default class AuthController {
     }
 
     // Hash password
-    user.password = await bcrypt.hash(ctx.request.body.password, saltRounds);
+    user.password = await bcrypt.hash(ctx.request.body.password, SALT_ROUNDS);
 
     await user.save();
 
