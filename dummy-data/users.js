@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 db.users.insertMany([
   {
-    __id: ObjectId('5e91953e782841001cfcffb6'),
+    _id: ObjectId('5e91953e782841001cfcffb6'),
     name: 'John Smith',
     email: 'admin@example.com',
     admin: true,
@@ -12,7 +12,7 @@ db.users.insertMany([
     averageRating: 0.9,
   },
   {
-    __id: ObjectId('5e919761c6d9a0001c7c77f0'),
+    _id: ObjectId('5e919761c6d9a0001c7c77f0'),
     name: 'Gary Forster',
     email: 'gary@garyforster.io',
     admin: true,
@@ -23,7 +23,7 @@ db.users.insertMany([
     password: '$2b$10$iwYR6nwGhJbj5U1tc2Nf0ewkE.ftXBVIAlUuK/PFQAZM7UffEy2ra',
   },
   {
-    __id: ObjectId('5e9197a7c6d9a0001c7c77f1'),
+    _id: ObjectId('5e9197a7c6d9a0001c7c77f1'),
     name: 'Becca Edwards',
     email: 'becca@example.com',
     admin: false,
@@ -34,7 +34,7 @@ db.users.insertMany([
     password: '$2b$10$Fh5ftJ4rU5LeA8yxE8TEpunWrOMWQWyqOHjXXZvajPuUvZPi.Sds2',
   },
   {
-    __id: ObjectId('5e91988cc6d9a0001c7c77f2'),
+    _id: ObjectId('5e91988cc6d9a0001c7c77f2'),
     name: 'Tao Lin',
     email: 'tao@example.com',
     admin: false,
@@ -44,7 +44,7 @@ db.users.insertMany([
     averageRating: 0.8667,
   },
   {
-    __id: ObjectId('5e9198b8c6d9a0001c7c77f3'),
+    _id: ObjectId('5e9198b8c6d9a0001c7c77f3'),
     name: 'Robbie Alexander',
     email: 'robbie@example.com',
     admin: false,
