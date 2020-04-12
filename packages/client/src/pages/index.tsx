@@ -7,6 +7,10 @@ import Login from '@/components/login';
 import PrivateRoute from '@/components/private-route';
 import Users from '@/components/users';
 
+/**
+ * Root page which hosts SPA for the following routes
+ * In the future, additional pages which do not require authentication can be added to this folder
+ */
 const IndexPage: FunctionComponent = () => {
   return (
     <Router>

@@ -1,4 +1,3 @@
-// TODO: link to backend
 export interface User {
   _id: string;
   name: string;

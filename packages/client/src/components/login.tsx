@@ -26,7 +26,7 @@ const Login: FunctionComponent<LoginProps> = ({ isRegistration }) => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   if (isAuthenticated && user) {
-    //   Redirect
+    //   Redirect depending on whether user is an admin or not
     navigate(user.admin ? '/users/' : '/feedback/');
   }
 

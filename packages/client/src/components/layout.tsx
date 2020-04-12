@@ -4,15 +4,14 @@ import { useTranslation } from 'react-i18next';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AddCommetIcon from '@material-ui/icons/AddComment';
 import GroupIcon from '@material-ui/icons/Group';
-import { Router } from '@reach/router';
 import { Link, navigate } from 'gatsby';
 
+import FAVICON from '../images/favicon.png';
 import { useAuth } from '../providers/auth';
 
 type LayoutProps = {
@@ -30,6 +29,10 @@ const useStyles = makeStyles(() =>
   }),
 );
 
+/**
+ * Layout component for wrapping pages and providing consistent layout
+ * Provdes navigation bar and page title
+ */
 const Layout: FunctionComponent<LayoutProps> = ({ title, children }) => {
   const { t } = useTranslation();
   const { isAuthenticated, logout, user } = useAuth();
@@ -53,6 +56,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ title, children }) => {
         <title>
           {t('global.title')} : {title}
         </title>
+        <link href={FAVICON} rel="shortcut icon" type="image/png" />
       </Helmet>
       <AppBar position="static">
         <Toolbar>
@@ -74,7 +78,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ title, children }) => {
                   to="/users/"
                   variant="outlined"
                 >
-                  Admin
+                  {t('layout.adminButton')}
                 </Button>
               )}
               {pathname.indexOf('/feedback') === -1 && (
@@ -85,7 +89,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ title, children }) => {
                   to="/feedback/"
                   variant="outlined"
                 >
-                  Feedback
+                  {t('layout.feedbackButton')}
                 </Button>
               )}
             </>

@@ -92,7 +92,6 @@ const RequestFeedbackDialog: FunctionComponent<RequestFeedbackDialogProps> = ({
   };
 
   const handleSendClick = async (): Promise<void> => {
-    // TODO: add loading feedback
     const requests = checked.map(async (evaluatorId) => {
       await fetch(API_BASE + '/requests', {
         method: 'POST',

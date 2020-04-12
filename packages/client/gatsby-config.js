@@ -38,7 +38,6 @@ module.exports = {
     //     dsn: process.env.GATSBY_SENTRY_DSN,
     //     environment: process.env.GATSBY_ENV,
     //     release: process.env.GATSBY_VERSION,
-    //     whitelistUrls: [/https:\/\/[a-z-]*.?pretiaar\.com/],
     //   },
     // },
   ],

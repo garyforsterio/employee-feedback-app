@@ -26,9 +26,11 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 export const useAuth = (): AuthContextType => useContext(AuthContext);
 
-type AuthProviderProps = {};
-const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
-  // If SSR there is no window
+/**
+ * Uses React's Context API to provide auth context accross application
+ */
+const AuthProvider: FunctionComponent = ({ children }) => {
+  // SSR safeguard
   const isSSR = typeof window === 'undefined';
 
   // TODO check token expiration
@@ -45,6 +47,9 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState(decodedToken);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Login or register using the credentials provided
+   */
   const login = async (
     email: string,
     password: string,
@@ -62,7 +67,7 @@ const AuthProvider: FunctionComponent<AuthProviderProps> = ({ children }) => {
           body: JSON.stringify({
             email,
             password,
-          }), // body data type must match "Content-Type" header
+          }),
         },
       );
       if (response.status >= 300) {
