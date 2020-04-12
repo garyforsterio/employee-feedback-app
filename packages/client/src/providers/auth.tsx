@@ -93,6 +93,7 @@ const AuthProvider: FunctionComponent = ({ children }) => {
   const logout = (): void => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
     setToken(null);
+    setUser(null);
     setIsAuthenticated(false);
   };
 
